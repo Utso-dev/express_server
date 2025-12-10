@@ -25,7 +25,6 @@ const auth = (...roles: string[]) => {
         });
       }
       req.user = decodedToken;
-      console.log(decodedToken);
 
       next();
     } catch (error) {
