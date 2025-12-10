@@ -46,7 +46,15 @@ const updateUserByIdDB = async (id: string | undefined, body: Promise<SingleUser
     return result;
 }
 
+const deleteUserByIdDB = async (id: string | undefined) => {
+    const result = await pool.query(
+      'DELETE FROM users WHERE id = $1 RETURNING *',    
+        [id]
+    );
+    return result;
+}
+
 export const userServices = {
     createUsersDB, getAllUsersDB, getUserByIdDB,
-    updateUserByIdDB
+    updateUserByIdDB, deleteUserByIdDB
 };
