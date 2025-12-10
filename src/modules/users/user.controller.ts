@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { pool } from '../../config/db';
 import { userServices } from './user.services';
 // user contrller file
 
@@ -96,7 +95,7 @@ const deleteUserById = async (req: Request, res: Response) => {
   const userId = req.params.id;
 
   try {
-      const result = await userServices.deleteUserByIdDB(userId);
+    const result = await userServices.deleteUserByIdDB(userId);
     if (result.rowCount === 0) {
       res.status(404).json({
         message: 'User not found',

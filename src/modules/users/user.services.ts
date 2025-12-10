@@ -1,9 +1,12 @@
 import e from "express";
 import { pool } from "../../config/db";
+import bcrypt from "bcryptjs";
 
 export type UserBody = {
     name: string;
     email: string;
+    role: string;
+    password:string;
     age: number;
     phone: string;
     adress: string;
@@ -18,10 +21,11 @@ type SingleUser = {
 
 
 const createUsersDB = async (body: UserBody) => {
-    const {name, email, age, phone, adress} = body;
+    const {name, role, email, password, age, phone, adress} = body;
+    const hashedPassword = await bcrypt.hash(password, 10);
     const result = await pool.query(
-      'INSERT INTO users (name, email, age, phone, adress) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, email, age, phone, adress]
+      'INSERT INTO users (name, role, email, password, age, phone, adress) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [name, role, email, hashedPassword, age, phone, adress]
     );  
 
     return result;
